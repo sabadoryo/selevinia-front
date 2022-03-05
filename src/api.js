@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "./store"
 
 // const DEV = 'http://selevinia.test';
-const REMOTE_DEV = 'http://sabadoryo.com';
+const REMOTE_DEV = 'https://sabadoryo.com';
 
 /*
  @TODO change before deploying
