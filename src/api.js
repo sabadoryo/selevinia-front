@@ -2,12 +2,13 @@ import axios from "axios";
 import store from "./store"
 
 const DEV = 'http://selevinia.test';
+const REMOTE_DEV = 'http://sabadoryo.com';
 
 /*
  @TODO change before deploying
 */
 let instance = axios.create({
-    baseURL : DEV,
+    baseURL : REMOTE_DEV,
     headers: {'Authorization': 'Bearer '+ localStorage.getItem('jwt') ?? ''}
 });
 
