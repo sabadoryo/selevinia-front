@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "./store"
 
-const DEV = 'http://selevinia.test';
+// const DEV = 'http://selevinia.test';
 const REMOTE_DEV = 'http://sabadoryo.com';
 
 /*
