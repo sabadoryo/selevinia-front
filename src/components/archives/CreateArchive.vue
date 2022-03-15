@@ -79,7 +79,7 @@
                                 key="big"
                                 :min-crop-box-height="327"
                                 :min-crop-box-width="253"
-                                :dialog-max-width="1300"
+                                :dialog-max-width="1000"
                                 :aspect-ratio="253/327"
                                 label="Выберите картинку"
                                 :rules="notEmptyRule"

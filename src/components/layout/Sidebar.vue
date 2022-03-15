@@ -62,6 +62,11 @@ export default {
           link: '/archives'  
         },
         {
+          title: 'Другие публикации',
+          icon: 'mdi-archive-outline',
+          link: '/publications'  
+        },
+        {
           title: 'Авторы',
           icon: 'mdi-human-edit',
           link: '/authors',

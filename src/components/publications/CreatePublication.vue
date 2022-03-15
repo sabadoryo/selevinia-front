@@ -5,11 +5,14 @@
 
             <v-banner>После того как вы внесли все изменения, пожалуйста сохраните их</v-banner>
             <v-spacer></v-spacer>
+            <v-row class="flex-column mt-5 float-left" dense align-content="end">
 
-            <v-btn color="primary" @click="savePost" :disabled="!validForm">
-                Сохранить
-            </v-btn>
-
+                <div>
+                    <v-btn color="primary" @click="savePublication">
+                        Сохранить
+                    </v-btn>
+                </div>
+            </v-row>
             <template v-slot:extension>
 
                 <v-tabs
@@ -35,7 +38,7 @@
                     <v-card flat max-width="700px" max-height="2000px" class="ml-auto mr-auto mt-5 mb-10">
                         <v-row>
                             <v-text-field
-                                v-model="post.name"
+                                v-model="publication.title"
                                 label="Название"
                                 :rules="notEmptyRule"
                                 counter="255"
@@ -43,34 +46,31 @@
                             ></v-text-field>
                         </v-row>
                         <v-row>
-                            <v-select v-model="post.category_id"
-                                      :items="categories"
-                                      item-text="name"
-                                      item-value="id"
-                                      label="Категория"
-                                      required
-                            >
-                            </v-select>
-                        </v-row>
-                        <v-row>
+                           <v-file-input
+                            show-size
+                            required
+                            accept="pdf"
+                            v-model="publication.document"
+                            label="Докмуент"
+                          ></v-file-input>
                         </v-row>
                     </v-card>
                 </v-tab-item>
                 <v-tab-item>
                     <crop-image class="mb-10"
                                 ref="cropperBig"
-                                :value="post.preview_big_image_url"
+                                :value="publication.image_url"
                                 key="big"
-                                :min-crop-box-height="456"
-                                :min-crop-box-width="658"
-                                :dialog-max-width="1300"
-                                :aspect-ratio="658/456"
+                                :min-crop-box-height="327"
+                                :min-crop-box-width="253"
+                                :dialog-max-width="1000"
+                                :aspect-ratio="253/327"
                                 label="Выберите картинку"
                                 :rules="notEmptyRule"
                     />
                 </v-tab-item>
-                <v-tab-item :eager="true">
-                        <editor ref="editor" :content="post.content"></editor>
+                <v-tab-item>
+                        <editor ref="editor" :content="publication.description"></editor>
                 </v-tab-item>
             </v-form>
         </v-tabs-items>
@@ -82,14 +82,14 @@ import Editor from "../reusable/Editor.vue"
 import cropImage from "../reusable/CropImage.vue"
 
 export default {
-  name: 'CreatePost',
+  name: 'CreatePublicationComponent',
   components: {
       Editor,
       cropImage
   },
   data: () => ({
-    post: {},
-    categories: [],
+    dialog:null,
+    publication: {},
     tab: 0,
     tabs: [
         {
@@ -98,12 +98,12 @@ export default {
             icon: 'mdi-collage'
         },
         {
-            title: 'Обложка поста',
+            title: 'Обложка архива',
             name: 'upload-image',
             icon: 'mdi-image-plus'
         },
         {
-            title: 'Контент',
+            title: 'Описание',
             name: 'content',
             icon: 'mdi-content-copy'
         }
@@ -114,43 +114,36 @@ export default {
     validForm: false,
   }),
   methods: {
-    savePost() {
+    savePublication() {
+        console.log(this.publication)
         this.$store.commit('triggerOverlay')
 
-        this.$refs.form.validate()
         var formData = new FormData();
-        this.buildFormData(formData, this.post)
+        this.buildFormData(formData, this.publication)
         if (this.$refs.cropperBig && this.$refs.cropperBig.croppedBlob) {
-            formData.append('preview_big_image', this.$refs.cropperBig.croppedBlob)
+            formData.append('image', this.$refs.cropperBig.croppedBlob)
         }
 
         if (this.$refs.editor.getData()) {
-                formData.append('content', this.$refs.editor.getData())
+                formData.append('description', this.$refs.editor.getData())
         } else {
                 this.$store.commit('triggerSnackbar', {
                     message: 'Заполните контент, хотя бы одним символом',
                     color: 'orange'
                 })
-                this.$store.commit('triggerOverlay')
-
                 return;
         }
 
-        this.$http.post(`/api/posts`, formData)
+        this.$http.post(`/api/publications`, formData)
             .then(res => {
                 console.log(res)
                 this.$store.commit('triggerOverlay')
-                this.$store.commit('triggerSnackbar', {message: "Пост создан", color: "green"})
-                this.$router.push(`/posts/${res.data.data.id}`)
+                this.$store.commit('triggerSnackbar', {message: 'Публикация добавлена', color: 'green'})
+
             }).catch(err => {
                 this.$store.commit('triggerOverlay')
                 console.log(err)
             })
-    },
-    async getCategories() {
-      const categoriesResponse = await this.$http.get(`/api/categories?itemsPerPage=100000`)
-      
-      this.categories = categoriesResponse.data.data.data;
     },
     buildFormData(formData, data, parentKey) {
             if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
@@ -163,10 +156,8 @@ export default {
             }
         },
   },
-  async mounted() {
-    this.$store.commit('triggerOverlay')
-    await this.getCategories();
-    this.$store.commit('triggerOverlay')
+  mounted() {
+    this.$store.commit('changeHeaderTitle', 'Новая публикация')
   }
 }
 </script>

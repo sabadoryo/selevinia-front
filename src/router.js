@@ -13,6 +13,9 @@ import CreatePostComponent from './components/posts/CreatePost.vue'
 import ArchivesComponent from './components/archives/Archives.vue'
 import EditArchiveComponent from './components/archives/EditArchive.vue'
 import CreateArchiveComponent from './components/archives/CreateArchive.vue'
+import PublicationsComponent from './components/publications/Publications.vue'
+import EditPublicationComponent from './components/publications/EditPublication.vue'
+import CreatePublicationComponent from './components/publications/CreatePublication.vue'
 import AuthorsComponent from './components/authors/Authors.vue'
 import EditAuthorsComponent from './components/authors/EditAuthor.vue'
 import CreateAuthorComponent from './components/authors/CreateAuthor.vue'
@@ -30,6 +33,9 @@ const routes = [
   { path: '/archives', component: ArchivesComponent, meta: {requiresAuth:true}},
   { path: '/archives/:id', component: EditArchiveComponent, meta: {requiresAuth:true}},
   { path: '/archives/new/archive', component: CreateArchiveComponent, meta: {requiresAuth:true}},
+  { path: '/publications', component: PublicationsComponent, meta: {requiresAuth:true}},
+  { path: '/publications/:id', component: EditPublicationComponent, meta: {requiresAuth:true}},
+  { path: '/publications/new/publication', component: CreatePublicationComponent, meta: {requiresAuth:true}},
   { path: '/authors', component: AuthorsComponent, meta: {requiresAuth:true}},
   { path: '/authors/:id', component: EditAuthorsComponent, meta: {requiresAuth:true}},
   { path: '/authors/new/author', component: CreateAuthorComponent, meta: {requiresAuth:true}},
