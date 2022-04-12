@@ -211,7 +211,7 @@ export default {
       await this.$http.get(`/api/archives/${this.archive.id}/download-document`, {responseType: 'arraybuffer'})
         .then(response => {
           let blob = new Blob([response.data], { type: 'application/pdf' })
-          this.archive.document = new File([blob], this.archive.title);
+          this.archive.document = new File([blob], this.archive.original_document_name);
          
         })
       this.tab = 2;
@@ -232,7 +232,7 @@ export default {
               let blob = new Blob([response.data], { type: 'application/pdf' })
               let link = document.createElement('a')
               link.href = window.URL.createObjectURL(blob)
-              link.download = this.archive.title;
+              link.download = this.archive.original_document_name;
               link.click()
               this.downloadLoader = false;
               this.$store.commit('triggerSnackbar', {message: 'Успех!', color: 'green'})

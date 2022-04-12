@@ -36,13 +36,12 @@
                     v-model="validForm"
                     lazy-validation>
                 <v-tab-item>
+                  Редактирование страниц сайта
+                </v-tab-item>
+                <v-tab-item>
                     <v-card flat max-width="700px" max-height="2000px" class="ml-auto mr-auto mt-5 mb-10">
                         <v-row>
-                            <v-text-field
-                                v-model="mainPageText"
-                                label="Текст на главной странице"
-                                clearable
-                            ></v-text-field>
+                            <editor ref="mainPageText" :content="mainPageText" uniqueId="mainPageText"></editor>
                         </v-row>
                     </v-card>
                 </v-tab-item>
@@ -82,18 +81,11 @@
                 <v-tab-item>
                     <v-card flat max-width="700px" max-height="2000px" class="ml-auto mr-auto mt-5 mb-10">
                         <v-row>
-                            <v-textarea
-                                v-model="authorsRulesDescription"
-                                label="Правила для авторов описание"
-                                clearable
-                            ></v-textarea>
+                            <editor ref="authorsRulesDescription" :content="authorsRulesDescription" uniqueId="authorsRulesDescription"></editor>
                         </v-row>
                          <v-row>
-                            <v-textarea
-                                v-model="authorsRulesText"
-                                label="Правила для авторов главный текст"
-                                clearable
-                            ></v-textarea>
+                           <p>kek</p>
+                            <editor ref="authorsRulesText" :content="authorsRulesText" uniqueId="authorsRulesText"></editor>
                         </v-row>
                     </v-card>
                 </v-tab-item>
@@ -110,37 +102,21 @@
                 </v-tab-item>
                 <v-tab-item>
                     <v-card flat max-width="700px" max-height="2000px" class="ml-auto mr-auto mt-5 mb-10">
-                        <v-row>
-                            <v-textarea
-                                v-model="englishVersionDescription"
-                                label="English version description"
-                                clearable
-                            ></v-textarea>
+                         <v-row>
+                          <editor ref="englishVersionDescription" :content="englishVersionDescription" uniqueId="englishVersionDescription"></editor>
                         </v-row>
                          <v-row>
-                            <v-textarea
-                                v-model="englishVersionText"
-                                label="English version content"
-                                clearable
-                            ></v-textarea>
+                            <editor ref="englishVersionText" :content="englishVersionText" uniqueId="englishVersionText"></editor>
                         </v-row>
                     </v-card>
                 </v-tab-item>
                 <v-tab-item>
                     <v-card flat max-width="700px" max-height="2000px" class="ml-auto mr-auto mt-5 mb-10">
                         <v-row>
-                            <v-textarea
-                                v-model="kazakhVersionDescription"
-                                label="Kazakh Version Description"
-                                clearable
-                            ></v-textarea>
+                          <editor ref="kazakhVersionDescription" :content="kazakhVersionDescription" uniqueId="kazakhVersionDescription"></editor>
                         </v-row>
                          <v-row>
-                            <v-textarea
-                                v-model="kazakhVersionText"
-                                label="Kazakh Version Content"
-                                clearable
-                            ></v-textarea>
+                            <editor ref="kazakhVersionText" :content="kazakhVersionText" uniqueId="kazakhVersionText"></editor>
                         </v-row>
                     </v-card>
                 </v-tab-item>
@@ -150,13 +126,21 @@
 </template>
 
 <script>
+import Editor from "../reusable/Editor.vue"
 export default {
   name: 'PagesComponent',
+  components: {
+      Editor
+  },
   data: () => ({
     dialog: null,
     validForm: null,
     tab: 0,
     tabs: [
+        {
+            title: '',
+            name: 'temp'
+        },
         {
             title: 'Главная страница',
             name: 'general-info',
@@ -201,7 +185,7 @@ export default {
     notEmptyRule: [
               v => !!v || 'Обязательное поле',
     ],
-        mainPageText: "",
+    mainPageText: "",
     authorsText: "",
     authorsBlogText: "",
     archiveText: "",
@@ -227,17 +211,17 @@ export default {
       this.$store.commit('triggerOverlay');
 
       this.$http.post('/api/pages/store-pages', {
-        mainPageText: this.mainPageText,
+        mainPageText: this.$refs.mainPageText.getData(),
         authorsText: this.authorsText,
         authorsBlogText: this.authorsBlogText,
         archiveText:this.archiveText,
-        authorsRulesDescription: this.authorsRulesDescription,
-        authorsRulesText : this.authorsRulesText,
+        authorsRulesDescription: this.$refs.authorsRulesDescription.getData(),
+        authorsRulesText : this.$refs.authorsRulesText.getData(),
         othersText: this.othersText,
-        englishVersionDescription: this.englishVersionDescription,
-        englishVersionText: this.englishVersionText,
-        kazakhVersionDescription: this.kazakhVersionDescription,
-        kazakhVersionText: this.kazakhVersionText,
+        englishVersionDescription: this.$refs.englishVersionDescription.getData(),
+        englishVersionText: this.$refs.englishVersionText.getData(),
+        kazakhVersionDescription: this.$refs.kazakhVersionDescription.getData(),
+        kazakhVersionText: this.$refs.kazakhVersionText.getData(),
       }).then(() => {
         this.$store.commit('triggerOverlay');
         this.$store.commit('triggerSnackbar', {message: "Сохранено", color:"green"})

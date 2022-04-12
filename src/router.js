@@ -22,6 +22,7 @@ import CreateAuthorComponent from './components/authors/CreateAuthor.vue'
 import ImportAuthorsComponent from './components/authors/ImportAuthors.vue'
 import SubscriptionComponent from './components/subscription/Subscriptions.vue'
 import PagesComponent from './components/pages/Pages.vue'
+import SubmitMailingComponent from './components/subscription/SubmitMailing.vue'
 
 const routes = [
   { path: '/', component: Main, meta: {requiresAuth:true}},
@@ -41,6 +42,7 @@ const routes = [
   { path: '/authors/new/author', component: CreateAuthorComponent, meta: {requiresAuth:true}},
   { path: '/authors/new/authors-excel', component: ImportAuthorsComponent, meta: {requiresAuth:true}},
   { path: '/subscriptions', component: SubscriptionComponent, meta: {requiresAuth:true}},
+  { path: '/subscriptions/submit-mailing', component: SubmitMailingComponent, meta: {requiresAuth:true}, name: 'submit-mailing'},
   { path: '/pages', component: PagesComponent, meta: {requiresAuth:true}},
   { path : '/login', component: LoginComponent, meta: {redirectIfAuth:true}}
 ]
