@@ -23,6 +23,7 @@ import ImportAuthorsComponent from './components/authors/ImportAuthors.vue'
 import SubscriptionComponent from './components/subscription/Subscriptions.vue'
 import PagesComponent from './components/pages/Pages.vue'
 import SubmitMailingComponent from './components/subscription/SubmitMailing.vue'
+import FeedbackComponent from './components/feedbacks/Feedback.vue'
 
 const routes = [
   { path: '/', component: Main, meta: {requiresAuth:true}},
@@ -44,6 +45,7 @@ const routes = [
   { path: '/subscriptions', component: SubscriptionComponent, meta: {requiresAuth:true}},
   { path: '/subscriptions/submit-mailing', component: SubmitMailingComponent, meta: {requiresAuth:true}, name: 'submit-mailing'},
   { path: '/pages', component: PagesComponent, meta: {requiresAuth:true}},
+  { path: '/feedbacks', component: FeedbackComponent, meta: {requiresAuth: true}},
   { path : '/login', component: LoginComponent, meta: {redirectIfAuth:true}}
 ]
 

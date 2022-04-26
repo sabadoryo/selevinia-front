@@ -80,6 +80,11 @@ export default {
           title: 'Страницы',
           icon: 'mdi-newspaper-variant-outline',
           link: '/pages',
+        },
+        {
+          title: 'Пожелания',
+          icon: 'mdi-archive-outline',
+          link: '/feedbacks',
         }
       ]
     }
