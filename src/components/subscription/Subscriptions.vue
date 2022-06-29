@@ -12,7 +12,9 @@
       loading-text="Загружаю почтовые адреса"
       :headers="headers"
       ref="mailings"
+      modelName="subscription"
       :showSelect="false"
+      :redirectToEditPageOnRowClick="true"
     >
     </data-table>
   </div>

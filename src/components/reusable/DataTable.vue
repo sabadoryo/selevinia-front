@@ -181,7 +181,6 @@ export default {
             return _.get(obj, key);
         },
         handleRowClick(value) {
-            console.log(value);
             if (this.redirectToEditPageOnRowClick) {
                 this.$router.push(`/${this.modelName}/${value.id}`)
             }
